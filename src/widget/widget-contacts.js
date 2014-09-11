@@ -65,9 +65,9 @@ var WidgetContacts = (function () {
 
     if(!section)
       section = createSection_(order);
-    
-    section.appendChild(node);
+
     contact.setNode(node);
+    insert_(section, contact);
   };
 
   var remove = function (id) {
@@ -220,6 +220,30 @@ var WidgetContacts = (function () {
     return (sections[order] = section);
   };
 
+  var insert_ = function (section, contact) {
+    var position;
+
+    for(var i = 1; i < section.children.length; ++i) {
+      var c = getContactById_(section.children[i].getElementsByClassName(
+        options.css.classId)[0].innerHTML),
+          ln;
+
+      if(!c) {
+        console.log("DEBUG", "failed to retrive contact descriptor");
+      } else if((ln = c.getLastName())) {
+        if(ln > contact.getLastName()) {
+          position = section.children[i];
+          break;
+        }
+      }
+    }
+
+    if(position)
+      section.insertBefore(contact.getNode(), position);
+    else
+      section.appendChild(contact.getNode());
+  };
+  
   var remove_ = function (contact, order) {
     /* Ensure a node exists; may not exist */
     if(contact.getNode())
