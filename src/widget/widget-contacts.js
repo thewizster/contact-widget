@@ -11,6 +11,13 @@
  * */
 
 
+if(!String.capitalise) {
+  String.capitalise = function (str) {
+    return str.substr(0, 1).toUpperCase() + str.substr(1).toLowerCase();
+  }
+}
+
+
 var WidgetContacts = (function () {
   var defaults = {
     css: {
@@ -264,10 +271,10 @@ var WidgetContacts = (function () {
       if(!names.length)
         throw "Invalid name specified";
       
-      this.nameFirst = names[0];
+      this.nameFirst = String.capitalise(names[0]);
 
       if(names.length > 1)
-        this.nameLast = names[1];
+        this.nameLast = String.capitalise(names[1]);
     },
     
     setNode: function (node)
