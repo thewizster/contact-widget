@@ -34,7 +34,7 @@ var WidgetContacts = (function () {
       classLetter: 'contacts-search-alpha-letter'
     },
     img: {
-      iconPerson: '../src/img/icon-person.png'
+      iconPerson: 'img/icon-person.png'
     }
   };
   
