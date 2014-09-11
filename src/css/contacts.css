@@ -6,6 +6,11 @@
 	height: 90px;
 	float: left;
 }
+
+.contacts-row IMG {
+  float: left;
+}
+
 .contacts-search-name {
 	font-size: 1.5em;
 	font-weight: bold;
