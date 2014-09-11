@@ -41,12 +41,18 @@ var WidgetContacts = (function () {
     var contact = getContactById_(details.id);
 
     if(contact) {
-      contact.set(details);
+      contact.setDetails(details);
+
+      /* Ensure a node exists; may not exist */
+      if(contact.getNode())
+        contact.getNode().remove();
       console.log("DEBUG", "edited contact: id:", details.id);
-      return;
+    } else {
+      contact = new Contact(details);
+      contacts.push(contact);
+      console.log("DEBUG", "added contact: id:", details.id);
     }
 
-    contact = new Contact(details);
     var node = render_(contact),
         order = contact.getOrderChar(),
         section = sections[order];
@@ -55,9 +61,7 @@ var WidgetContacts = (function () {
       section = createSection_(order);
     
     section.appendChild(node);
-    contacts.push(contact);
-
-    console.log("DEBUG", "added contact: id:", details.id);
+    contact.setNode(node);
   };
 
   var remove = function (id) {
