@@ -178,9 +178,8 @@ var WidgetContacts = (function () {
     node.className = options.css.classLetter;
     section.appendChild(node);
     
-    while(i > ' ') {
-      i = i.charCodeAt(0) - 1;
-      i = (i == ay) ? ' ' : String.fromCharCode(i);
+    while(i >= ' ') {
+      i = (i == ay) ? ' ' : String.fromCharCode(i.charCodeAt(0) - 1);
 
       if(i < order)
         break;
