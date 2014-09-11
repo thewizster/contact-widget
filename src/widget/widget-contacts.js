@@ -214,31 +214,10 @@ var WidgetContacts = (function () {
 
   
   /* Class: Contact */
-  var Contact = function (details, node) {
+  var Contact = function (details) {
     this.id = details.id;
-    this.phone = details.phone;
-    this.email = details.email;
-    this.hometown = details.hometown;
 
-    var names = details.name.trim().split(' ');
-
-    /* Remove empty elements just to be sure. */
-    for(var i = 0; i < names.length; ) {
-      if(!names[i])
-        names.splice(i, 1);
-      else
-        ++i;
-    }
-
-    if(!names.length)
-      throw "Invalid name specified";
-    
-    this.nameFirst = names[0];
-
-    if(names.length > 1)
-      this.nameLast = names[1];
-
-    this.node = node;
+    this.setDetails(details);
   };
 
   Contact.prototype = {
@@ -249,6 +228,34 @@ var WidgetContacts = (function () {
     email: null,
     hometown: null,
     node: null,
+
+    setDetails: function (details)
+    {
+      this.phone = details.phone;
+      this.email = details.email;
+      this.hometown = details.hometown;
+
+      var names = details.name.trim().split(' ');
+
+      /* Remove empty elements just to be sure. */
+      for(var i = 0; i < names.length; ) {
+        if(!names[i])
+          names.splice(i, 1);
+        else
+          ++i;
+      }
+
+      if(!names.length)
+        throw "Invalid name specified";
+      
+      this.nameFirst = names[0];
+
+      if(names.length > 1)
+        this.nameLast = names[1];
+    },
+    
+    setNode: function (node)
+    { this.node = node; },
     
     getId: function ()
     { return this.id; },
