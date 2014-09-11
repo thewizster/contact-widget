@@ -290,10 +290,10 @@ var WidgetContacts = (function () {
         : this.nameFirst;
     },
     
-    getNameFirst: function ()
+    getFirstName: function ()
     { return this.nameFirst; },
 
-    getNameLast: function ()
+    getLastName: function ()
     { return this.nameLast; },
 
     getOrderChar: function ()
