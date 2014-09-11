@@ -1,0 +1,60 @@
+.contacts-row{
+	background-color: papayawhip;
+	border-radius: 5px;
+	margin: 5px;
+	padding: 5px 10px 5px;
+	height: 90px;
+	float: left;
+}
+
+.contacts-row > DIV:first-child {
+  float: left;
+}
+
+.contacts-row > DIV:last-child {
+  float: right;
+}
+
+.contacts-row SPAN {
+  display: block;
+}
+
+.contacts-row IMG {
+  float: left;
+}
+
+.contacts-search-name {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.contacts-search-email {
+	font-size: .7em;
+}
+
+.contacts-search-phone {
+	font-size: .8em;
+}
+
+.contacts-list-alpha {
+	background-color: #B0C4DE;
+	width: 100%;
+	display: table;
+	margin:10px 0px 10px 0px;
+}
+
+.contacts-search-alpha-letter {
+	width: 50px;
+	font-size: 3em;
+	text-align: center;
+	display: table-cell;
+	vertical-align: top;
+}
+
+.contacts-search-tractor {
+	font-size: .8em;
+}
+
+.contacts-search-hometown {
+	font-size: .8em;
+}
