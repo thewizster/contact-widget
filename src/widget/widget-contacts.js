@@ -26,9 +26,6 @@ var WidgetContacts = (function () {
       classId: 'contacts-search-id',
       classPhone: 'contacts-search-phone',
       classEmail: 'contacts-search-email',
-      classEmailInner: 'email',
-      classEmailActual: 'value',
-      classEmailUrl: 'url',
       classHometown: 'contacts-search-hometown',
       classList: 'contacts-list-alpha',
       classLetter: 'contacts-search-alpha-letter'
@@ -102,7 +99,8 @@ var WidgetContacts = (function () {
 
   var render_ = function (contact) {
     var container = document.createElement('div'),
-        node, n1, n2, n3;
+        nsec = document.createElement('div'),
+        node, ntemp;
 
     /* Contact container */
     container.id = contact.getId();
@@ -111,68 +109,49 @@ var WidgetContacts = (function () {
     /* Icon */
     node = document.createElement('img');
     node.src = options.img.iconPerson;
-    container.appendChild(node);
+    nsec.appendChild(node);
+    container.appendChild(nsec);
 
+    nsec = document.createElement('div');
+    
     /* Name */
     node = document.createElement('span');
     node.className = options.css.className;
     node.innerHTML = contact.getName();
-    container.appendChild(node);
-
-    node = document.createElement('br');
-    container.appendChild(node);
+    nsec.appendChild(node);
 
     /* Id */
     node = document.createElement('span');
     node.className = options.css.classId;
     node.innerHTML = contact.getId();
-    container.appendChild(node);
-
-    node = document.createElement('br');
-    container.appendChild(node);
+    nsec.appendChild(node);
 
     /* Phone */
     node = document.createElement('span');
     node.className = options.css.classPhone;
     node.innerHTML = contact.getPhone();
-    container.appendChild(node);
-
-    node = document.createElement('br');
-    container.appendChild(node);
+    nsec.appendChild(node);
 
     /* Email */
     node = document.createElement('span');
     node.className = options.css.classEmail;
 
-    n1 = document.createElement('span');
-    n1.className = options.css.classEmailInner;
+    ntemp = document.createElement('a');
+    ntemp.href = 'mailto: ' + contact.getEmail();
+    ntemp.target = '_blank';
+    ntemp.innerHTML = contact.getEmail();
 
-    n2 = document.createElement('span');
-    n2.className = options.css.classEmailActual;
-
-    n3 = document.createElement('a');
-    n3.className = options.css.classEmailUrl;
-    n3.href = 'mailto: ' + contact.getEmail();
-    n3.target = '_blank';
-    n3.innerHTML = contact.getEmail();
-
-    n2.appendChild(n3);
-    n1.appendChild(n2);
-    node.appendChild(n1);
-    container.appendChild(node);
-
-    node = document.createElement('br');
-    container.appendChild(node);
+    node.appendChild(ntemp);
+    nsec.appendChild(node);
 
     /* Hometown */
     node = document.createElement('span');
     node.className = options.css.classHometown;
     node.innerHTML = contact.getHometown();
-    container.appendChild(node);
+    nsec.appendChild(node);
 
-    node = document.createElement('br');
-    container.appendChild(node);
-
+    container.appendChild(nsec);
+    
     return container;
   };
 
