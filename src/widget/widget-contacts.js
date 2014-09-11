@@ -41,11 +41,10 @@ var WidgetContacts = (function () {
     var contact = getContactById_(details.id);
 
     if(contact) {
+      var order = contact.getOrderChar();
       contact.setDetails(details);
 
-      /* Ensure a node exists; may not exist */
-      if(contact.getNode())
-        contact.getNode().remove();
+      remove_(contact, order);
       console.log("DEBUG", "edited contact: id:", details.id);
     } else {
       contact = new Contact(details);
@@ -72,10 +71,8 @@ var WidgetContacts = (function () {
       return;
     }
 
-    /* Ensure a node exists; may not exist. */
-    if(contact.getNode())
-      contact.getNode().remove();
-    
+    /* Remove from internal container and UI. */
+    remove_(contact);
     contacts.splice(contacts.indexOf(contact), 1);
     
     console.log("DEBUG", "removed contact: id:", id);
@@ -214,7 +211,21 @@ var WidgetContacts = (function () {
       mainContainer.appendChild(section);
     
     return (sections[order] = section);
-  }
+  };
+
+  var remove_ = function (contact, order) {
+    /* Ensure a node exists; may not exist */
+    if(contact.getNode())
+      contact.getNode().remove();
+
+    if(!order)
+      order = contact.getOrderChar();
+
+    if(sections[order].children.length == 1) {
+      sections[order].remove();
+      delete sections[order];
+    }
+  };
 
   
   /* Class: Contact */
