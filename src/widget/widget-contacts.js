@@ -42,6 +42,7 @@ var WidgetContacts = (function () {
 
     if(contact) {
       contact.set(details);
+      console.log("DEBUG", "edited contact: id:", details.id);
       return;
     }
 
@@ -55,6 +56,8 @@ var WidgetContacts = (function () {
     
     section.appendChild(node);
     contacts.push(contact);
+
+    console.log("DEBUG", "added contact: id:", details.id);
   };
 
   var remove = function (id) {
