@@ -1,1 +1,1 @@
-../../src/widget/widget-contacts.js
+../../../src/widget/widget-contacts.js
