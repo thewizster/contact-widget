@@ -22,7 +22,9 @@ var WidgetContacts = (function () {
       classEmailInner: 'email',
       classEmailActual: 'value',
       classEmailUrl: 'url',
-      classHometown: 'contacts-search-hometown'
+      classHometown: 'contacts-search-hometown',
+      classList: 'contacts-list-alpha',
+      classLetter: 'contacts-search-alpha-letter'
     },
     img: {
       iconPerson: '../src/img/icon-person.png'
@@ -44,9 +46,14 @@ var WidgetContacts = (function () {
     }
 
     contact = new Contact(details);
-    var node = render_(contact);
+    var node = render_(contact),
+        order = contact.getOrderChar(),
+        section = sections[order];
 
-    mainContainer.appendChild(node);
+    if(!section)
+      section = createSection_(order);
+    
+    section.appendChild(node);
     contacts.push(contact);
   };
 
@@ -156,6 +163,40 @@ var WidgetContacts = (function () {
     }
   };
 
+  var createSection_ = function (order) {
+    var section = document.createElement('div'),
+        i = 'Z',
+        ay = 'A'.charCodeAt(0),
+        node,
+        target;
+
+    section.id = 'contacts-list-' + (order == ' ' ? '-' : order);
+    section.className = 'contacts-list-alpha';
+
+    node = document.createElement('div');
+    node.innerHTML = order;
+    node.className = options.css.classLetter;
+    section.appendChild(node);
+    
+    while(i > ' ') {
+      i = i.charCodeAt(0) - 1;
+      i = (i == ay) ? ' ' : String.fromCharCode(i);
+
+      if(i < order)
+        break;
+      else if(i in sections)
+        target = sections[i];
+    }
+
+    if(target) {
+      target.parentNode.insertBefore(section, target);
+    } else
+      mainContainer.appendChild(section);
+    
+    return (sections[order] = section);
+  }
+
+  
   /* Class: Contact */
   var Contact = function (details, node) {
     this.id = details.id;
@@ -210,7 +251,7 @@ var WidgetContacts = (function () {
     { return this.nameLast; },
 
     getOrderChar: function ()
-    { return this.lastName ? this.lastName.charAt(0).toUpperCase() : ' '; },
+    { return this.nameLast ? this.nameLast.charAt(0).toUpperCase() : ' '; },
     
     getPhone: function ()
     { return this.phone; },
@@ -234,7 +275,6 @@ var WidgetContacts = (function () {
 
       /* Merge default options with given options. */
       merge_objects_(options = opts, defaults);
-      console.log(options);
 
       mainContainer = document.getElementById(opts.container);
       if(!mainContainer)
