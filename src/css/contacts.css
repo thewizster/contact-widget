@@ -9,6 +9,7 @@
 
 .contacts-row > DIV:first-child {
   float: left;
+  margin-right: 5px;
 }
 
 .contacts-row > DIV:last-child {
