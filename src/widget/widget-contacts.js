@@ -170,11 +170,11 @@ var WidgetContacts = (function () {
         node,
         target;
 
-    section.id = 'contacts-list-' + (order == ' ' ? '-' : order);
+    section.id = 'contacts-list-' + (order == ' ' ? 'space' : order);
     section.className = 'contacts-list-alpha';
 
     node = document.createElement('div');
-    node.innerHTML = order;
+    node.innerHTML = order == ' ' ? '-' : order;
     node.className = options.css.classLetter;
     section.appendChild(node);
     
