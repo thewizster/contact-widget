@@ -1,0 +1,31 @@
+/** theme-default.css --- Default CSS theme of the example page.
+ *
+ * Copyright (C) 2014 Kar Services
+ *
+ * Author: Miguel Guedes <miguel@miguelguedes.org>
+ *
+ * Comments:
+ *
+ * 
+ * */
+
+#wrapper {
+  margin: auto;
+  width: 900px;
+}
+
+#contacts, #control {
+  border: 4px solid #ddd;
+  border-radius: 8px;
+  min-height: 600px;
+}
+
+#contacts {
+  width: 600px;
+  float: left;
+}
+
+#control {
+  width: 280px;
+  float: right;
+}
