@@ -61,6 +61,20 @@ var WidgetContacts = (function () {
   };
 
   var remove = function (id) {
+    var contact = getContactById_(id);
+
+    if(!contact) {
+      console.log("DEBUG", "contact non existent: id:", id);
+      return;
+    }
+
+    /* Ensure a node exists; may not exist. */
+    if(contact.getNode())
+      contact.getNode().remove();
+    
+    contacts.splice(contacts.indexOf(contact), 1);
+    
+    console.log("DEBUG", "removed contact: id:", id);
   };
 
 
