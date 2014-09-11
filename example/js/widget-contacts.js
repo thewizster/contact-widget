@@ -1,0 +1,1 @@
+../../src/widget/widget-contacts.js
