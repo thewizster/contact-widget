@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="css/theme-default.css" media="screen" />
   <link rel="stylesheet" href="css/contacts.css" media="screen" />
 
+  <!-- jQuery (for testing purposes only) -->
+  <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
+  
   <!-- Contacts widget -->
   <script type="text/javascript" src="js/widget-contacts.js"></script>
 
@@ -16,36 +19,78 @@
   
   <!-- Main initialisation logic -->
   <script type="text/javascript">
-var widget;
+  $(function () {
+    var widget;
+    
+    widget = WidgetContacts.instantiate( {
+      container: 'contacts'
+    } );
 
-window.onload = function () {
-  widget = WidgetContacts.instantiate( {
-    container: 'contacts'
+    var load_ = (function () {
+      var index = 0;
+
+      var loadNext_ = function () {
+        window.setTimeout(function () {
+          if(index < g_contacts.length) {
+            widget.add(g_contacts[index ++]);
+            loadNext_();
+          } else
+            console.log("Finished loading mock data");
+
+        }, Math.floor(Math.random() * 500));
+      };
+
+      loadNext_();
+    })();
+
+    function getValue(id) {
+      var v = $('#' + id).val();
+
+      return v ? v.trim() : null;
+    }
+
+    $('#action-add').click(function () {
+      var id = getValue('contact-id');
+      var name = getValue('contact-name');
+      var phone = getValue('contact-phone');
+      var email = getValue('contact-email');
+      var hometown = getValue('contact-hometown');
+
+      if(!id || !name || !phone || !email || !hometown)
+        return;
+      
+      widget.add( {
+        id: id,
+        name: name,
+        phone: phone,
+        email: email,
+        hometown: hometown
+      } );
+    } );
+
+    $('#action-remove').click(function () {
+      var id = getValue('contact-id');
+      
+      if(id)
+        widget.remove(id);
+    } );
   } );
-
-  var load_ = (function () {
-    var index = 0;
-
-    var loadNext_ = function () {
-      window.setTimeout(function () {
-        if(index < g_contacts.length) {
-          widget.add(g_contacts[index ++]);
-          loadNext_();
-        } else
-          console.log("Finished loading mock data");
-
-      }, Math.floor(Math.random() * 500));
-    };
-
-    loadNext_();
-  })();
-}
   </script>
 </head>
 
 <body>
   <div id="wrapper">
     <div id="control">
+      <div>
+        <label>Id<input id="contact-id" type="text"/></label>
+        <label>Name<input id="contact-name" type="text"/></label>
+        <label>Phone<input id="contact-phone" type="text"/></label>
+        <label>Email<input id="contact-email" type="text"/></label>
+        <label>Hometown<input id="contact-hometown" type="text"/></label>
+        
+        <button id="action-add">Add</button>
+        <button id="action-remove">Remove</button>
+      </div>
     </div>
     
     <div id="contacts">

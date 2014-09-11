@@ -26,6 +26,13 @@
 }
 
 #control {
-  width: 280px;
+  width: 260px;
   float: right;
+  padding: 10px;
+}
+
+LABEL {
+  display: block;
+  width: 100px;
+  margin-bottom: 20px;
 }
