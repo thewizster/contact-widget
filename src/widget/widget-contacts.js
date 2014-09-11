@@ -12,8 +12,27 @@
 
 
 var WidgetContacts = (function () {
-  var container,                /* Contacts container. */
-      contacts = [ ];
+  var defaults = {
+    css: {
+      classContact: 'contacts-row',
+      className: 'contacts-search-name',
+      classId: 'contacts-search-id',
+      classPhone: 'contacts-search-phone',
+      classEmail: 'contacts-search-email',
+      classEmailInner: 'email',
+      classEmailActual: 'value',
+      classEmailUrl: 'url',
+      classHometown: 'contacts-search-hometown'
+    },
+    img: {
+      iconPerson: '../src/img/icon-person.png'
+    }
+  };
+  
+  var mainContainer,
+      sections = [ ],
+      contacts = [ ],
+      options;
 
   /* Public interface */
   var add = function (details) {
@@ -24,7 +43,11 @@ var WidgetContacts = (function () {
       return;
     }
 
-    contacts.push(new Contact(details));
+    contact = new Contact(details);
+    var node = render_(contact);
+
+    mainContainer.appendChild(node);
+    contacts.push(contact);
   };
 
   var remove = function (id) {
@@ -45,9 +68,96 @@ var WidgetContacts = (function () {
     return result;
   };
 
+  var render_ = function (contact) {
+    var container = document.createElement('div'),
+        node, n1, n2, n3;
+
+    /* Contact container */
+    container.id = contact.getId();
+    container.className = options.css.classContact;
+
+    /* Icon */
+    node = document.createElement('img');
+    node.src = options.img.iconPerson;
+    container.appendChild(node);
+
+    /* Name */
+    node = document.createElement('span');
+    node.className = options.css.className;
+    node.innerHTML = contact.getName();
+    container.appendChild(node);
+
+    node = document.createElement('br');
+    container.appendChild(node);
+
+    /* Id */
+    node = document.createElement('span');
+    node.className = options.css.classId;
+    node.innerHTML = contact.getId();
+    container.appendChild(node);
+
+    node = document.createElement('br');
+    container.appendChild(node);
+
+    /* Phone */
+    node = document.createElement('span');
+    node.className = options.css.classPhone;
+    node.innerHTML = contact.getPhone();
+    container.appendChild(node);
+
+    node = document.createElement('br');
+    container.appendChild(node);
+
+    /* Email */
+    node = document.createElement('span');
+    node.className = options.css.classEmail;
+
+    n1 = document.createElement('span');
+    n1.className = options.css.classEmailInner;
+
+    n2 = document.createElement('span');
+    n2.className = options.css.classEmailActual;
+
+    n3 = document.createElement('a');
+    n3.className = options.css.classEmailUrl;
+    n3.href = 'mailto: ' + contact.getEmail();
+    n3.target = '_blank';
+    n3.innerHTML = contact.getEmail();
+
+    n2.appendChild(n3);
+    n1.appendChild(n2);
+    node.appendChild(n1);
+    container.appendChild(node);
+
+    node = document.createElement('br');
+    container.appendChild(node);
+
+    /* Hometown */
+    node = document.createElement('span');
+    node.className = options.css.classHometown;
+    node.innerHTML = contact.getHometown();
+    container.appendChild(node);
+
+    node = document.createElement('br');
+    container.appendChild(node);
+
+    return container;
+  };
+
+  var merge_objects_ = function (obj, def) {
+    for(var key in def) {
+      if(typeof key == 'object') {
+        if(!(key in obj) || typeof obj[key] != 'object')
+          obj[key] = { };
+        
+        merge_objects_(obj[key], def[key]);
+      } else if(!obj.hasOwnProperty(key))
+        obj[key] = def[key];
+    }
+  };
 
   /* Class: Contact */
-  var Contact = function (details) {
+  var Contact = function (details, node) {
     this.id = details.id;
     this.phone = details.phone;
     this.email = details.email;
@@ -70,6 +180,8 @@ var WidgetContacts = (function () {
 
     if(names.length > 1)
       this.nameLast = names[1];
+
+    this.node = node;
   };
 
   Contact.prototype = {
@@ -116,12 +228,16 @@ var WidgetContacts = (function () {
 
   /* Module */
   return {
-    instantiate: function (options) {
-      if(container)
+    instantiate: function (opts) {
+      if(mainContainer)
         throw "Widget already initialised";
 
-      container = document.getElementById(options.container);
-      if(!container)
+      /* Merge default options with given options. */
+      merge_objects_(options = opts, defaults);
+      console.log(options);
+
+      mainContainer = document.getElementById(opts.container);
+      if(!mainContainer)
         throw "Contacts container not found";
       
       return {
