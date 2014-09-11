@@ -238,6 +238,7 @@ var WidgetContacts = (function () {
       this.phone = details.phone;
       this.email = details.email;
       this.hometown = details.hometown;
+      this.nameLast = null;
 
       var names = details.name.trim().split(' ');
 
