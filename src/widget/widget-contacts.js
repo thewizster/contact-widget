@@ -42,6 +42,25 @@ var WidgetContacts = (function () {
 
   /* Public interface */
   var add = function (details) {
+    /* Ensure expected data is correct and complete. */
+    if(!("id" in details)                         /* id */
+       || details.id === null
+       || !("name" in details)                    /* name */
+       || typeof details.name !== "string"
+       || !(details.name = details.name.trim())
+       || !("email" in details)                   /* email */
+       || typeof details.email !== "string"
+       || !(details.email = details.email.trim())
+       || !("phone" in details)                   /* phone */
+       || typeof details.phone !== "string"
+       || !(details.phone = details.phone.trim())
+       || !("hometown" in details)                /* hometown */
+       || typeof details.hometown !== "string"
+       || !(details.hometown = details.hometown.trim())) {
+      return false;
+    }
+
+    
     var contact = getContactById_(details.id);
 
     if(contact) {
